@@ -1,4 +1,4 @@
-import type { Plugin } from 'vite'
+﻿import type { Plugin } from 'vite'
 import Path from 'path'
 import { sync as globSync } from 'fast-glob'
 import { readFile } from 'fs/promises'
@@ -39,7 +39,9 @@ export function assetsPlugin({
             'utf-8'
           )
 
-          const { id, name, category_ids } = JSON.parse(asset_metadata_content) // Extract supported metadata keys
+          const { id, name, category_ids } = JSON.parse(
+            asset_metadata_content.trim()
+          ) // Extract supported metadata keys
 
           const asset_svg_content = await readFile(asset_file, 'utf-8') // Get the contents of the SVG asset file
           const asset_json_content = await parseSVG(asset_svg_content) // Convert SVG contents to JSON
