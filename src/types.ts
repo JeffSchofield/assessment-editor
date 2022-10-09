@@ -1,5 +1,17 @@
 ﻿import { INode } from 'svgson'
 
+/** Category information for an art asset. */
+export type ArtAssetCategory = {
+  /** The UUID of the art asset category. */
+  id: string
+
+  /** The name of the art asset category. */
+  name: string
+
+  /** Icon associated with this art asset category. */
+  icon: string
+}
+
 /** An individual art asset. */
 export interface ArtAsset {
   /** The UUID of the art asset. */
