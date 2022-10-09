@@ -55,7 +55,7 @@ export function assetsPlugin({
             category_ids
           })
         } catch (e) {
-          console.error(e) // Still print the error to warn the developer
+          console.warn(`Unable to add artwork asset '${asset_file}'.`) // Still print the error to warn the developer
         }
       }
     },
