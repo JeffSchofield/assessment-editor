@@ -1,5 +1,5 @@
 ﻿import { describe, expect, it } from 'vitest'
-import { assetsPlugin } from '../lib/assets-plugin'
+import { assetsPlugin } from '../src/lib/assets-plugin'
 
 type AssetsPlugin = {
   name: string

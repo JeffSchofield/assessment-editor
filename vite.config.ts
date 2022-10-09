@@ -2,7 +2,7 @@
 
 import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
-import { assetsPlugin } from './lib/assets-plugin'
+import { assetsPlugin } from './src/lib/assets-plugin'
 
 export default defineConfig({
   plugins: [react(), assetsPlugin()],

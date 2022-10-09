@@ -3,7 +3,7 @@ import Path from 'path'
 import { sync as globSync } from 'fast-glob'
 import { readFile } from 'fs/promises'
 import { parse as parseSVG } from 'svgson'
-import { ArtAsset } from '../src/types'
+import { ArtAsset } from '../types'
 
 interface AssetsPluginOptions {
   /** Directory to look for artwork assets in */
