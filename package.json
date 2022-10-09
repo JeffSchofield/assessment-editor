@@ -3,6 +3,7 @@
   "version": "0.0.1",
   "scripts": {
     "test:unit": "vitest",
+    "coverage": "vitest run --coverage",
     "lint": "eslint \"**/*.{js,ts,tsx}\"",
     "format": "eslint --fix \"**/*.{js,ts,tsx}\"",
     "dev": "vite",
