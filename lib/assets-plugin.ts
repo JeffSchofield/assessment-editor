@@ -1,4 +1,4 @@
-﻿import type { Plugin } from 'vite'
+import type { Plugin } from 'vite'
 import Path from 'path'
 import { sync as globSync } from 'fast-glob'
 import { readFile } from 'fs/promises'
@@ -12,7 +12,7 @@ interface AssetsPluginOptions {
 
 /** Plugin to compile all SVGs and JSON manifests found in the `assets/artwork` folder */
 export function assetsPlugin({
-  artwork_dir = './src/assets/artwork/**/*.svg'
+  artwork_dir = './src/assets/artwork'
 }: AssetsPluginOptions = {}): Plugin {
   // Artwork Assets
   const art_assets_virtual_import = `virtual:art_assets`
@@ -24,7 +24,7 @@ export function assetsPlugin({
     name: 'AssetsPlugin',
     async configResolved() {
       // Get list of artwork SVGs from the artwork assets folder
-      const art_asset_files = globSync(artwork_dir, {
+      const art_asset_files = globSync(`${artwork_dir}/**/*.svg`, {
         onlyFiles: true
       })
 
