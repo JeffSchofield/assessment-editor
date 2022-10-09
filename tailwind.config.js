@@ -3,5 +3,8 @@ module.exports = {
   theme: {
     extend: {}
   },
-  plugins: [require('tailwindcss-gridlines')]
+  plugins: [
+    require('tailwindcss-interaction-media'),
+    require('tailwindcss-gridlines')
+  ]
 }

@@ -27,6 +27,7 @@ specifiers:
   svgson: ^5.2.1
   tailwindcss: ^3.1.8
   tailwindcss-gridlines: ^0.2.4
+  tailwindcss-interaction-media: ^0.1.0
   typescript: ^4.8.4
   vite: ^3.1.4
   vitest: ^0.23.4
@@ -61,6 +62,7 @@ devDependencies:
   svgson: 5.2.1
   tailwindcss: 3.1.8
   tailwindcss-gridlines: 0.2.4_5zjlt5w4ir2cay3te66iu3k3ji
+  tailwindcss-interaction-media: 0.1.0
   typescript: 4.8.4
   vite: 3.1.4
   vitest: 0.23.4_jsdom@20.0.1
@@ -3769,6 +3771,10 @@ packages:
       - autoprefixer
       - postcss
       - ts-node
+    dev: true
+
+  /tailwindcss-interaction-media/0.1.0:
+    resolution: {integrity: sha512-3/o9Gc8sXqrUHp/7w4T+Zt46GubrO7BRmxJpB6BogJt0B33K5G1lOVe2q0Ro43Zkk51Tp2ED0zQ/wL5weO+yUw==}
     dev: true
 
   /tailwindcss/2.2.19_5zjlt5w4ir2cay3te66iu3k3ji:
