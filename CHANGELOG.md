@@ -6,4 +6,5 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
-Nothing yet.
+### Added
+- Add Vite assets plugin which provides a virtual import for all art assets compiled from the `/src/assets/artwork` folder
