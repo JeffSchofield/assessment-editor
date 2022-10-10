@@ -1,6 +1,7 @@
 lockfileVersion: 5.4
 
 specifiers:
+  '@leeoniya/ufuzzy': ^0.7.0
   '@tailwindcss/forms': ^0.5.3
   '@testing-library/jest-dom': ^5.16.5
   '@testing-library/react': ^13.4.0
@@ -36,6 +37,7 @@ specifiers:
   yorkie: ^2.0.0
 
 dependencies:
+  '@leeoniya/ufuzzy': 0.7.0
   react: 18.2.0
   react-dom: 18.2.0_react@18.2.0
 
@@ -491,6 +493,10 @@ packages:
       '@jridgewell/resolve-uri': 3.1.0
       '@jridgewell/sourcemap-codec': 1.4.14
     dev: true
+
+  /@leeoniya/ufuzzy/0.7.0:
+    resolution: {integrity: sha512-5DRso63/NzmxUqxKnjBpKSl3tCfDtQf8mbnbgxBVsdZtxlv/aJQbIB/iHOMH0lq2CKlZhoEtaEus9puEMAf74Q==}
+    dev: false
 
   /@nodelib/fs.scandir/2.1.5:
     resolution: {integrity: sha512-vq24Bq3ym5HEQm2NKCr3yXDwjc7vTsEThRDnkp2DK9p1uqLR+DHurm/NOTo0KG7HYHU7eppKZj3MyqYuMBf62g==}
