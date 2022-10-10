@@ -35,7 +35,7 @@ export const art_assets: ArtAsset[] = [
       },
       children: []
     },
-    category_ids: []
+    category_ids: ['8777441a-36a1-4e22-b7bf-89885c909e44']
   }
 ]
 

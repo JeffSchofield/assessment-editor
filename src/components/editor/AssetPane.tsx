@@ -37,13 +37,27 @@ export function EditorAssetPane({
    */
   const art_assets = useArtAssets() // Inject assets list from assets context
 
-  const art_asset_menu_items = art_assets.map(asset => (
-    <EditorArtAssetMenuItem
-      key={asset.id}
-      asset={asset}
-      onClick={() => (onAssetClick ? onAssetClick(asset) : undefined)}
-    />
-  ))
+  const art_asset_menu_items = art_assets.reduce<React.ReactNode[]>(
+    (items, asset) => {
+      // If we have a category selected and this asset doesn't have that category assigned to it, then skip
+      if (
+        selected_asset_category != undefined &&
+        !asset.category_ids.includes(selected_asset_category)
+      ) {
+        return items
+      }
+
+      items.push(
+        <EditorArtAssetMenuItem
+          key={asset.id}
+          asset={asset}
+          onClick={() => (onAssetClick ? onAssetClick(asset) : undefined)}
+        />
+      )
+      return items
+    },
+    []
+  )
 
   return (
     <div className={className + ' flex flex-col'} {...props}>

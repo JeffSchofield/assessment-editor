@@ -57,4 +57,23 @@ describe('Editor Asset Pane Component', () => {
       art_asset_categories.length + 1
     ) // Make sure all categories are rendered plus one for the default 'all' category
   })
+
+  it('should filter assets when a category is clicked', async () => {
+    render(
+      <ArtAssetsContext.Provider value={art_assets}>
+        <AssetCategoriesContext.Provider value={art_asset_categories}>
+          <EditorAssetPane />
+        </AssetCategoriesContext.Provider>
+      </ArtAssetsContext.Provider>
+    )
+
+    const categories_list = screen.getByTestId('asset-pane-category-list')
+    const main_list = screen.getByTestId('asset-pane-main-list')
+
+    expect(main_list.children.length).toBeGreaterThan(1) // Make sure more than one asset is currently rendered
+
+    await userEvent.click(categories_list.children[1]) // Click the second category in the category list, which is the first custom category after the default "all"
+
+    expect(main_list.children).toHaveLength(1) // There should now only be one asset listed
+  })
 })
