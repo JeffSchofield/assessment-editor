@@ -6,7 +6,7 @@ import { ASSET_CATEGORIES } from '../constants'
  * Art Assets
  */
 
-const ArtAssetsContext = createContext(art_assets)
+export const ArtAssetsContext = createContext(art_assets)
 
 interface ArtAssetsProviderProps {
   children?: React.ReactNode
@@ -35,7 +35,7 @@ export function useArtAssets() {
  * Asset Categories
  */
 
-const AssetCategoriesContext = createContext(ASSET_CATEGORIES)
+export const AssetCategoriesContext = createContext(ASSET_CATEGORIES)
 
 /** Get the app's current list of asset categories */
 export function useAssetCategories() {
