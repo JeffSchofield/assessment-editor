@@ -4,9 +4,9 @@ import { render } from './utils'
 import App from '../src/App'
 
 describe('Main App', () => {
-  it('should render the main app', () => {
+  it('should render the main app and editor', () => {
     const app = render(<App />)
 
-    expect(app.baseElement).toHaveTextContent('Hello World')
+    expect(app.queryByTestId('editor')).toBeTruthy()
   })
 })
