@@ -20,12 +20,14 @@ specifiers:
   fast-glob: ^3.2.12
   jsdom: ^20.0.1
   kolorist: ^1.6.0
+  konva: ^8.3.13
   lint-staged: ^13.0.3
   postcss: ^8.4.17
   prettier: ^2.7.1
   prettier-plugin-tailwindcss: ^0.1.13
   react: ^18.2.0
   react-dom: ^18.2.0
+  react-konva: ^18.2.2
   svgson: ^5.2.1
   tailwindcss: ^3.1.8
   tailwindcss-gridlines: ^0.2.4
@@ -38,8 +40,10 @@ specifiers:
 
 dependencies:
   '@leeoniya/ufuzzy': 0.7.0
+  konva: 8.3.13
   react: 18.2.0
   react-dom: 18.2.0_react@18.2.0
+  react-konva: 18.2.2_ycsaxglfwmvsphhhrpeabwxklq
 
 devDependencies:
   '@tailwindcss/forms': 0.5.3_tailwindcss@3.1.8
@@ -643,7 +647,6 @@ packages:
 
   /@types/prop-types/15.7.5:
     resolution: {integrity: sha512-JCB8C6SnDoQf0cNycqd/35A7MjcnK+ZTqE7judS6o7utxUCg6imJg3QK2qzHKszlTjcj2cn+NwMB2i96ubpj7w==}
-    dev: true
 
   /@types/react-dom/18.0.6:
     resolution: {integrity: sha512-/5OFZgfIPSwy+YuIBP/FgJnQnsxhZhjjrnxudMddeblOouIodEQ75X14Rr4wGSG/bknL+Omy9iWlLo1u/9GzAA==}
@@ -651,17 +654,21 @@ packages:
       '@types/react': 18.0.21
     dev: true
 
+  /@types/react-reconciler/0.28.0:
+    resolution: {integrity: sha512-5cjk9ottZAj7eaTsqzPUIlrVbh3hBAO2YaEL1rkjHKB3xNAId7oU8GhzvAX+gfmlfoxTwJnBjPxEHyxkEA1Ffg==}
+    dependencies:
+      '@types/react': 18.0.21
+    dev: false
+
   /@types/react/18.0.21:
     resolution: {integrity: sha512-7QUCOxvFgnD5Jk8ZKlUAhVcRj7GuJRjnjjiY/IUBWKgOlnvDvTMLD4RTF7NPyVmbRhNrbomZiOepg7M/2Kj1mA==}
     dependencies:
       '@types/prop-types': 15.7.5
       '@types/scheduler': 0.16.2
       csstype: 3.1.1
-    dev: true
 
   /@types/scheduler/0.16.2:
     resolution: {integrity: sha512-hppQEBDmlwhFAXKJX2KnWLYu5yMfi91yazPb2l+lbJiwW+wdo1gNeRA+3RgNSO39WYX2euey41KEwnqesU2Jew==}
-    dev: true
 
   /@types/stack-utils/2.0.1:
     resolution: {integrity: sha512-Hl219/BT5fLAaz6NDkSuhzasy49dwQS/DSdu4MdggFB8zcXv7vflBI3xp7FEmkmdDkBUI2bPUNeMttp2knYdxw==}
@@ -1497,7 +1504,6 @@ packages:
 
   /csstype/3.1.1:
     resolution: {integrity: sha512-DJR/VvkAvSZW9bTouZue2sSxDwdTN92uHjqeKVm+0dAqdfNykRzQ95tay8aXMBAAPpUiq4Qcug2L7neoRh2Egw==}
-    dev: true
 
   /data-urls/3.0.2:
     resolution: {integrity: sha512-Jy/tj3ldjZJo63sVAvg6LHt2mHvl4V6AgRAmNDtLdm7faqtsx+aJG42rsyCo9JCoRVKwPFzKlIPx3DIibwSIaQ==}
@@ -3013,6 +3019,15 @@ packages:
     engines: {node: '>=0.10.0'}
     dev: true
 
+  /its-fine/1.0.5_react@18.2.0:
+    resolution: {integrity: sha512-JVqIHuUGRF4mBJWV/o9CS86wU57oWAX+mE2iokFpZ+B1R1tcfRvLZXVFd9tWJgY7gfhBURYyXJs7LcoJl/Af+Q==}
+    peerDependencies:
+      react: '>=18.0'
+    dependencies:
+      '@types/react-reconciler': 0.28.0
+      react: 18.2.0
+    dev: false
+
   /jest-diff/29.1.2:
     resolution: {integrity: sha512-4GQts0aUopVvecIT4IwD/7xsBaMhKTYoM4/njE/aVw9wpw+pIUVp8Vab/KnSzSilr84GnLBkaP3JLDnQYCKqVQ==}
     engines: {node: ^14.15.0 || ^16.10.0 || >=18.0.0}
@@ -3198,6 +3213,10 @@ packages:
   /kolorist/1.6.0:
     resolution: {integrity: sha512-dLkz37Ab97HWMx9KTes3Tbi3D1ln9fCAy2zr2YVExJasDRPGRaKcoE4fycWNtnCAJfjFqe0cnY+f8KT2JePEXQ==}
     dev: true
+
+  /konva/8.3.13:
+    resolution: {integrity: sha512-O5VxHfRfTj4PscTglQH1NimS8+CC5hQYLeB8YQstu8MN/i2L8GjA1T9d7xxzITF2TD5+xcIs5ei7en3cztbNXg==}
+    dev: false
 
   /levn/0.3.0:
     resolution: {integrity: sha512-0OO4y2iOHix2W6ujICbKIaEQXvFQHue65vUG3pb5EUomzPI90z9hsA1VsO/dbIIpC53J8gxM9Q4Oho0jrCM/yA==}
@@ -4085,6 +4104,32 @@ packages:
   /react-is/18.2.0:
     resolution: {integrity: sha512-xWGDIW6x921xtzPkhiULtthJHoJvBbF3q26fzloPCK0hsvxtPVelvftw3zjbHWSkR2km9Z+4uxbDDK/6Zw9B8w==}
     dev: true
+
+  /react-konva/18.2.2_ycsaxglfwmvsphhhrpeabwxklq:
+    resolution: {integrity: sha512-J0CyScyaWcDs5kPrcCy9ALrdVeeIUnE/rNc3wrsjMKHkqGHeC0ekCq2m+mB2tEzHuukDGk2BiLTNqGnp1wrDpA==}
+    peerDependencies:
+      konva: ^8.0.1 || ^7.2.5
+      react: '>=18.0.0'
+      react-dom: '>=18.0.0'
+    dependencies:
+      its-fine: 1.0.5_react@18.2.0
+      konva: 8.3.13
+      react: 18.2.0
+      react-dom: 18.2.0_react@18.2.0
+      react-reconciler: 0.29.0_react@18.2.0
+      scheduler: 0.23.0
+    dev: false
+
+  /react-reconciler/0.29.0_react@18.2.0:
+    resolution: {integrity: sha512-wa0fGj7Zht1EYMRhKWwoo1H9GApxYLBuhoAuXN0TlltESAjDssB+Apf0T/DngVqaMyPypDmabL37vw/2aRM98Q==}
+    engines: {node: '>=0.10.0'}
+    peerDependencies:
+      react: ^18.2.0
+    dependencies:
+      loose-envify: 1.4.0
+      react: 18.2.0
+      scheduler: 0.23.0
+    dev: false
 
   /react-refresh/0.14.0:
     resolution: {integrity: sha512-wViHqhAd8OHeLS/IRMJjTSDHF3U9eWi62F/MledQGPdJGDhodXJ9PBLNGr6WWL7qlH12Mt3TyTpbS+hGXMjCzQ==}
