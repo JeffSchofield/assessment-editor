@@ -23,6 +23,7 @@ specifiers:
   kolorist: ^1.6.0
   konva: ^8.3.13
   lint-staged: ^13.0.3
+  nanoid: ^4.0.0
   postcss: ^8.4.17
   prettier: ^2.7.1
   prettier-plugin-tailwindcss: ^0.1.13
@@ -44,6 +45,7 @@ dependencies:
   '@leeoniya/ufuzzy': 0.7.0
   '@reduxjs/toolkit': 1.8.6_kuo2ie247izvzll3jejufdtq3q
   konva: 8.3.13
+  nanoid: 4.0.0
   react: 18.2.0
   react-dom: 18.2.0_react@18.2.0
   react-konva: 18.2.2_ycsaxglfwmvsphhhrpeabwxklq
@@ -3542,6 +3544,12 @@ packages:
     engines: {node: ^10 || ^12 || ^13.7 || ^14 || >=15.0.1}
     hasBin: true
     dev: true
+
+  /nanoid/4.0.0:
+    resolution: {integrity: sha512-IgBP8piMxe/gf73RTQx7hmnhwz0aaEXYakvqZyE302IXW3HyVNhdNGC+O2MwMAVhLEnvXlvKtGbtJf6wvHihCg==}
+    engines: {node: ^14 || ^16 || >=18}
+    hasBin: true
+    dev: false
 
   /nanomatch/1.2.13:
     resolution: {integrity: sha512-fpoe2T0RbHwBTBUOftAfBPaDEi06ufaUai0mE6Yn1kacc3SnTErfb/h+X94VXzI64rKFHYImXSvdwGGCmwOqCA==}
