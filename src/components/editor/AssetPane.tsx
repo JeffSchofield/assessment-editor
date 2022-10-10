@@ -22,7 +22,7 @@ export function EditorAssetPane({
     <EditorArtAssetMenuItem
       key={asset.id}
       asset={asset}
-      onClick={() => onAssetClick(asset)}
+      onClick={() => (onAssetClick ? onAssetClick(asset) : undefined)}
     />
   ))
 
