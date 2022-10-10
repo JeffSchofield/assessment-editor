@@ -76,4 +76,21 @@ describe('Editor Asset Pane Component', () => {
 
     expect(main_list.children).toHaveLength(1) // There should now only be one asset listed
   })
+
+  it('should filter assets when a search term is entered', async () => {
+    render(
+      <ArtAssetsContext.Provider value={art_assets}>
+        <EditorAssetPane />
+      </ArtAssetsContext.Provider>
+    )
+
+    const asset_search_input = screen.getByRole('textbox') // Get the search input
+    const main_list = screen.getByTestId('asset-pane-main-list')
+
+    expect(main_list.children.length).toBeGreaterThan(1) // Make sure more than one asset is currently rendered
+
+    await userEvent.type(asset_search_input, 'Second') // Type the string `Second` in order to include only the asset with `Second` in its name
+
+    expect(main_list.children).toHaveLength(1) // There should now only be one asset listed
+  })
 })
