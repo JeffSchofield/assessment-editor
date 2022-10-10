@@ -1,8 +1,11 @@
 ﻿import React from 'react'
 import { render, screen, userEvent } from '../../utils'
 import { describe, expect, it, vi } from 'vitest'
-import { ArtAssetsContext } from '../../../src/contexts/assets'
-import { art_assets } from '../../fixtures/constants'
+import {
+  ArtAssetsContext,
+  AssetCategoriesContext
+} from '../../../src/contexts/assets'
+import { art_assets, art_asset_categories } from '../../fixtures/constants'
 import { EditorAssetPane } from '../../../src/components/editor/AssetPane'
 
 describe('Editor Asset Pane Component', () => {
@@ -39,5 +42,19 @@ describe('Editor Asset Pane Component', () => {
 
     expect(asset_click_spy).toHaveBeenCalledTimes(1) // Check the spy to see if the handler was called once
     expect(asset_click_spy).toHaveBeenCalledWith(art_assets[0]) // Check to see if the handler was called with the first asset as a value
+  })
+
+  it('should have a list of categories', () => {
+    render(
+      <AssetCategoriesContext.Provider value={art_asset_categories}>
+        <EditorAssetPane />
+      </AssetCategoriesContext.Provider>
+    )
+
+    const categories_list = screen.getByTestId('asset-pane-category-list')
+
+    expect(categories_list.children).toHaveLength(
+      art_asset_categories.length + 1
+    ) // Make sure all categories are rendered plus one for the default 'all' category
   })
 })
