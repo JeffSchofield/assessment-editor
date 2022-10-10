@@ -3,6 +3,10 @@ import { PaneMenuItem } from '../buttons/PaneMenuItem'
 import { useArtAssets, useAssetCategories } from '../../contexts/assets'
 import { EditorArtAssetMenuItem } from './ArtAssetMenuItem'
 import { ArtAsset } from '../../types'
+import uFuzzy from '@leeoniya/ufuzzy'
+import { EditorAssetSearchInput } from './AssetSearchInput'
+
+const fuzzy_search = new uFuzzy() // Create a new fuzzy search instance
 
 interface EditorAssetPaneProps {
   onAssetClick?: (asset: ArtAsset) => void
@@ -36,8 +40,25 @@ export function EditorAssetPane({
    * Assets
    */
   const art_assets = useArtAssets() // Inject assets list from assets context
+  const filtered_assets: ArtAsset[] = []
 
-  const art_asset_menu_items = art_assets.reduce<React.ReactNode[]>(
+  // Filter from text input
+  const [search_text, setSearchText] = useState('')
+  if (search_text) {
+    const asset_names = art_assets.map(asset => asset.name)
+
+    const idxs = fuzzy_search.filter(asset_names, search_text) // Pre-filter
+    const info = fuzzy_search.info(idxs, asset_names, search_text) // Collects stats about the filtered matches such as start offsets, fuzz level, etc.
+    const order = fuzzy_search.sort(info, asset_names, search_text) // Orders the matches based on the collected stats
+
+    for (const order_index of order) {
+      filtered_assets.push(art_assets[info.idx[order_index]])
+    }
+  } else {
+    filtered_assets.push(...art_assets)
+  }
+
+  const art_asset_menu_items = filtered_assets.reduce<React.ReactNode[]>(
     (items, asset) => {
       // If we have a category selected and this asset doesn't have that category assigned to it, then skip
       if (
@@ -61,6 +82,14 @@ export function EditorAssetPane({
 
   return (
     <div className={className + ' flex flex-col'} {...props}>
+      {/* Search box */}
+      <div className="p-1/2 bg-neutral-775">
+        <EditorAssetSearchInput
+          className="w-full"
+          onInput={e => setSearchText((e.target as HTMLInputElement).value)}
+        />
+      </div>
+
       <div className="flex-1 flex">
         {/* Category filter menu */}
         <div
