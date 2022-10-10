@@ -45,7 +45,7 @@ export function PaneMenuItem({
     : ''
   const button_classes =
     className +
-    ' relative flex flex-col items-center p-1/2 transition-color duration-100 can-hover:hover:bg-neutral-100/10 active:!bg-neutral-100/20 ' +
+    ' relative flex flex-col items-center p-1/2 transition-color duration-100 can-hover:hover:bg-neutral-100/10 active:!bg-neutral-100/20 focus-visible:z-10 focus-visible:outline-0 focus-visible:bg-neutral-100/10 focus-visible:ring-1/8 ' +
     active_button_classes
 
   const active_text_classes = isActive ? '' : 'text-neutral-400'
