@@ -1,4 +1,13 @@
-﻿import { ArtAssetCategory } from './types'
+﻿import { ArtAssetCategory, ProjectState } from './types'
+
+/**
+ * The initial state of the project store.
+ */
+export const INITIAL_PROJECT_STATE: ProjectState = {
+  width: 500,
+  height: 500,
+  stage: []
+}
 
 /**
  * The list of asset categories used in asset metadata JSON files
