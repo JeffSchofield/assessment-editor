@@ -1,4 +1,5 @@
 ﻿import React, {
+  DragEvent as ReactDragEvent,
   MouseEvent as ReactMouseEvent,
   TouchEvent as ReactTouchEvent,
   useRef,
@@ -95,6 +96,39 @@ export function Editor({
     }
   })
 
+  /**
+   * Drop handling
+   */
+  function handleDrop(e: ReactDragEvent) {
+    if (stage_ref.current) {
+      e.preventDefault()
+
+      stage_ref.current.setPointersPositions(e)
+      const [asset_id, width, height] = e.dataTransfer
+        .getData('text/plain')
+        .split(':') // Deserialize the data transfer object
+
+      // Make sure there is an asset by this ID in the assets list and create the object
+      if (asset_id && art_assets.find(asset => asset.id == asset_id)) {
+        const { x, y } = stage_ref.current.getPointerPosition() || {
+          x: 0,
+          y: 0
+        }
+
+        dispatch(
+          addObject({
+            type: StageObjectType.ART_ASSET,
+            x: x - parseFloat(width) / 2,
+            y: y - parseFloat(height) / 2,
+            scale: { x: 1, y: 1 },
+            rotation: 0,
+            asset_id
+          } as ArtAssetStageObject)
+        )
+      }
+    }
+  }
+
   return (
     <div className={className + ' h-full flex'} {...props}>
       {/* Left Pane */}
@@ -109,6 +143,8 @@ export function Editor({
         className="flex-1 flex items-center justify-center"
         onMouseDown={checkOutsideStageAndDeselect}
         onTouchStart={checkOutsideStageAndDeselect}
+        onDragOver={e => e.preventDefault()}
+        onDrop={handleDrop}
       >
         <Stage
           ref={stage_ref}
