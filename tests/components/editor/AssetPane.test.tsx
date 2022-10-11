@@ -1,5 +1,5 @@
 ﻿import React from 'react'
-import { render, screen, userEvent } from '../../utils'
+import { render, screen, userEvent, fireEvent } from '../../utils'
 import { describe, expect, it, vi } from 'vitest'
 import {
   ArtAssetsContext,
@@ -92,5 +92,28 @@ describe('Editor Asset Pane Component', () => {
     await userEvent.type(asset_search_input, 'Second') // Type the string `Second` in order to include only the asset with `Second` in its name
 
     expect(main_list.children).toHaveLength(1) // There should now only be one asset listed
+  })
+
+  it('should show a ghost image of the asset when an asset menu item is dragged', () => {
+    render(
+      <ArtAssetsContext.Provider value={art_assets}>
+        <EditorAssetPane />
+      </ArtAssetsContext.Provider>
+    )
+
+    const main_list = screen.getByTestId('asset-pane-main-list')
+    const drag_element = main_list.children[0]
+
+    fireEvent.dragStart(drag_element, {
+      dataTransfer: { setDragImage: () => undefined, setData: () => undefined }
+    }) // Start a drag, mock the dataTransfer object to avoid errors
+
+    let ghost = screen.queryByTestId('asset-ghost') // Look for the ghost
+    expect(ghost).toBeTruthy() // Ghost should exist
+
+    fireEvent.dragEnd(drag_element) // End the drag
+
+    ghost = screen.queryByTestId('asset-ghost') // Look again for the ghost
+    expect(screen.queryByTestId('asset-ghost')).toBeNull() // Should be null because the ghost is removed
   })
 })

@@ -77,6 +77,12 @@ export interface ArtAsset {
   /** The name of the art asset. */
   name: string
 
+  /** The width of the art asset. */
+  width: number
+
+  /** The height of the art asset. */
+  height: number
+
   /** An array of category UUIDs assigned to the art asset. */
   category_ids: string[]
 

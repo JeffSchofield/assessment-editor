@@ -12,7 +12,7 @@ describe('Assets Vite Plugin', () => {
   const virtual_module = 'virtual:art_assets'
   it('should load all assets successfully and export them as a virtual module', async () => {
     // Expect to find a single art asset compiled from the files found in `./fixtures/artwork`
-    const expected_export_structure = `[{"id":"82134889-ac55-4eea-8f6a-618699fbbb6b","name":"Some Asset","src":"/tests/fixtures/artwork/some-asset.svg","content":{"name":"svg","type":"element","value":"","attributes":{"height":"50","width":"50","xmlns":"http://www.w3.org/2000/svg"},"children":[]},"category_ids":[]}]`
+    const expected_export_structure = `[{"id":"82134889-ac55-4eea-8f6a-618699fbbb6b","name":"Some Asset","width":50,"height":50,"src":"/tests/fixtures/artwork/some-asset.svg","content":{"name":"svg","type":"element","value":"","attributes":{"height":"50","width":"50","xmlns":"http://www.w3.org/2000/svg"},"children":[]},"category_ids":[]}]`
 
     const assets_plugin = assetsPlugin({
       artwork_dir: './tests/fixtures/artwork'
