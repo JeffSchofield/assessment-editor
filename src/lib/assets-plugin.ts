@@ -50,6 +50,8 @@ export function assetsPlugin({
           art_assets.push({
             id,
             name,
+            width: parseFloat(asset_json_content.attributes.width),
+            height: parseFloat(asset_json_content.attributes.height),
             src: asset_file.substring(1), // Swallow the initial `.` in the path, e.g. `./src` -> `/src`
             content: asset_json_content,
             category_ids
