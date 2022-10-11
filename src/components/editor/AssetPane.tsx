@@ -86,6 +86,7 @@ export function EditorAssetPane({
   function handleDragStart(e: ReactDragEvent, asset: ArtAsset) {
     // Create a ghost image of the asset
     const ghost = document.createElement('img')
+    ghost.dataset.testid = 'asset-ghost'
     ghost.src = asset.src
 
     // Position the ghost absolutely, center the ghost under the element origin, and make sure there are no pointer events so it doesn't interfere with drag events
