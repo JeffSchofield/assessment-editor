@@ -3,6 +3,8 @@
 export const art_asset: ArtAsset = {
   id: 'e4bd2ad9-6411-4815-b415-d4e37456c499',
   name: 'Some Asset',
+  width: 50,
+  height: 50,
   src: '/tests/fixtures/artwork/some-asset.svg',
   content: {
     name: 'svg',
@@ -23,6 +25,8 @@ export const art_assets: ArtAsset[] = [
   {
     id: 'a6d8dfbf-b154-41f5-8a85-d5fc109bf5b2',
     name: 'Some Second Asset',
+    width: 50,
+    height: 50,
     src: '/tests/fixtures/artwork/some-second-asset.svg',
     content: {
       name: 'svg',
