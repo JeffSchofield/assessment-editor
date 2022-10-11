@@ -1,4 +1,9 @@
-import React from 'react'
+﻿import React, {
+  MouseEvent as ReactMouseEvent,
+  TouchEvent as ReactTouchEvent,
+  useRef,
+  useState
+} from 'react'
 import { PaneHeading } from '../layout/PaneHeading'
 import { EditorAssetPane } from './AssetPane'
 import { Stage, Layer, Rect } from 'react-konva'
@@ -6,6 +11,8 @@ import { useAppDispatch, useAppSelector } from '../../hooks'
 import { isArtAssetStageObject } from '../../utils'
 import { EditorArtAssetStageObject } from './objects/ArtAssetStageObject'
 import { useArtAssets } from '../../contexts/assets'
+import { Stage as StageType } from 'konva/lib/Stage'
+import { KonvaEventObject } from 'konva/lib/Node'
 import { ArtAsset, ArtAssetStageObject, StageObjectType } from '../../types'
 import { addObject } from '../../stores/project'
 
@@ -16,6 +23,7 @@ export function Editor({
   className = '',
   ...props
 }: React.HtmlHTMLAttributes<HTMLDivElement>) {
+  const stage_ref = useRef<StageType>(null)
   const project = useAppSelector(state => state.project)
   const dispatch = useAppDispatch()
   const art_assets = useArtAssets()
@@ -37,6 +45,35 @@ export function Editor({
   }
 
   /**
+   * Asset stage object selection
+   */
+  const [selected_asset, setSelectedAsset] = useState<string | undefined>()
+
+  /** Deselect if any asset is currently selected. */
+  function deselectAsset() {
+    setSelectedAsset(undefined)
+  }
+
+  /** Check to make sure the click is outside the stage and deselect if it is. */
+  function checkOutsideStageAndDeselect(
+    e: ReactMouseEvent<HTMLDivElement> | ReactTouchEvent<HTMLDivElement>
+  ) {
+    if (
+      stage_ref.current?.content &&
+      (e.target as HTMLDivElement).contains(stage_ref.current?.content)
+    )
+      deselectAsset()
+  }
+
+  /** Make sure the clicked area is an empty part of the stage and deselects if it is. */
+  function checkEmptyAreaAndDeslect(
+    e: KonvaEventObject<MouseEvent> | KonvaEventObject<TouchEvent>
+  ) {
+    if (e.target === e.target.getStage() || e.target.id() == 'stage-background')
+      deselectAsset()
+  }
+
+  /**
    * Build stage content
    */
   const stage_content = project.stage.map(stage_object => {
@@ -51,6 +88,8 @@ export function Editor({
           art_asset={art_assets.find(
             asset => asset.id == stage_object.asset_id
           )}
+          isSelected={selected_asset == stage_object.id}
+          onSelect={() => setSelectedAsset(stage_object.id)}
         />
       )
     }
@@ -66,11 +105,18 @@ export function Editor({
       </div>
 
       {/* Main Viewport */}
-      <div className="flex-1 flex items-center justify-center">
+      <div
+        className="flex-1 flex items-center justify-center"
+        onMouseDown={checkOutsideStageAndDeselect}
+        onTouchStart={checkOutsideStageAndDeselect}
+      >
         <Stage
+          ref={stage_ref}
           className="shadow-md"
           width={project.width}
           height={project.height}
+          onMouseDown={checkEmptyAreaAndDeslect}
+          onTouchStart={checkEmptyAreaAndDeslect}
         >
           <Layer>
             <Rect
