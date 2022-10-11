@@ -129,7 +129,7 @@ export function EditorAssetPane({
     // Store the asset data using the drag events data transfer
     e.dataTransfer.setData(
       'text/plain',
-      `${asset.id}:${ghost.width}:${ghost.height}` // Serialize the asset data as ASSET_ID:WIDTH:HEIGHT
+      `${asset.id}:${asset.width}:${asset.height}` // Serialize the asset data as ASSET_ID:WIDTH:HEIGHT
     )
   }
 
