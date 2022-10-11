@@ -15,7 +15,7 @@ import { useArtAssets } from '../../contexts/assets'
 import { Stage as StageType } from 'konva/lib/Stage'
 import { KonvaEventObject } from 'konva/lib/Node'
 import { ArtAsset, ArtAssetStageObject, StageObjectType } from '../../types'
-import { addObject } from '../../stores/project'
+import { addObject, updateObject } from '../../stores/project'
 
 /**
  * Creates an instance of the visual editor.
@@ -91,6 +91,9 @@ export function Editor({
           )}
           isSelected={selected_asset == stage_object.id}
           onSelect={() => setSelectedAsset(stage_object.id)}
+          onChange={data =>
+            dispatch(updateObject({ id: stage_object.id, data }))
+          }
         />
       )
     }
