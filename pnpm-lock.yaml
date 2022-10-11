@@ -31,6 +31,7 @@ specifiers:
   react-dom: ^18.2.0
   react-konva: ^18.2.2
   react-redux: ^8.0.4
+  redux-persist: ^6.0.0
   svgson: ^5.2.1
   tailwindcss: ^3.1.8
   tailwindcss-gridlines: ^0.2.4
@@ -50,6 +51,7 @@ dependencies:
   react-dom: 18.2.0_react@18.2.0
   react-konva: 18.2.2_ycsaxglfwmvsphhhrpeabwxklq
   react-redux: 8.0.4_5uumaiclxbdbzaqafclbf6maf4
+  redux-persist: 6.0.0_react@18.2.0
 
 devDependencies:
   '@tailwindcss/forms': 0.5.3_tailwindcss@3.1.8
@@ -4259,6 +4261,18 @@ packages:
       css-unit-converter: 1.1.2
       postcss-value-parser: 3.3.1
     dev: true
+
+  /redux-persist/6.0.0_react@18.2.0:
+    resolution: {integrity: sha512-71LLMbUq2r02ng2We9S215LtPu3fY0KgaGE0k8WRgl6RkqxtGfl7HUozz1Dftwsb0D/5mZ8dwAaPbtnzfvbEwQ==}
+    peerDependencies:
+      react: '>=16'
+      redux: '>4.0.0'
+    peerDependenciesMeta:
+      react:
+        optional: true
+    dependencies:
+      react: 18.2.0
+    dev: false
 
   /redux-thunk/2.4.1_redux@4.2.0:
     resolution: {integrity: sha512-OOYGNY5Jy2TWvTL1KgAlVy6dcx3siPJ1wTq741EPyUKfn6W6nChdICjZwCd0p8AZBs5kWpZlbkXW2nE/zjUa+Q==}
