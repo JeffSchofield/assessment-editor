@@ -1,4 +1,4 @@
-﻿import React, { useState } from 'react'
+﻿import React, { DragEvent as ReactDragEvent, useState } from 'react'
 import { PaneMenuItem } from '../buttons/PaneMenuItem'
 import { useArtAssets, useAssetCategories } from '../../contexts/assets'
 import { EditorArtAssetMenuItem } from './ArtAssetMenuItem'
@@ -73,12 +73,64 @@ export function EditorAssetPane({
           key={asset.id}
           asset={asset}
           onClick={() => (onAssetClick ? onAssetClick(asset) : undefined)}
+          draggable="true"
+          onDragStart={e => handleDragStart(e, asset)}
         />
       )
       return items
     },
     []
   )
+
+  // Create the drag event handler
+  function handleDragStart(e: ReactDragEvent, asset: ArtAsset) {
+    // Create a ghost image of the asset
+    const ghost = document.createElement('img')
+    ghost.src = asset.src
+
+    // Position the ghost absolutely, center the ghost under the element origin, and make sure there are no pointer events so it doesn't interfere with drag events
+    ghost.classList.add(
+      'absolute',
+      'pointer-events-none',
+      '-translate-x-50%',
+      '-translate-y-50%'
+    )
+
+    // Position the ghost on the cursor
+    ghost.style.left = e.pageX + 'px'
+    ghost.style.top = e.pageY + 'px'
+
+    // Add the ghost to the body for display
+    document.body.appendChild(ghost)
+
+    // Update the ghost position as the mouse moves
+    function handleDragMove(e: DragEvent) {
+      ghost.style.left = e.pageX + 'px'
+      ghost.style.top = e.pageY + 'px'
+    }
+
+    // Remove the ghost and clear event listeners when the dragging stops
+    function handleDragEnd() {
+      e.target.removeEventListener('dragend', handleDragEnd)
+      document.removeEventListener('dragover', handleDragMove)
+      document.body.removeChild(ghost)
+    }
+
+    // Register drag event listeners
+    document.addEventListener('dragover', handleDragMove)
+    e.target.addEventListener('dragend', handleDragEnd)
+
+    // Hide the browser's built in drag image by setting it to an empty SVG URI
+    const drag_image = new Image()
+    drag_image.src = 'data:image/svg+xml;utf8,<svg></svg>'
+    e.dataTransfer.setDragImage(drag_image, 0, 0)
+
+    // Store the asset data using the drag events data transfer
+    e.dataTransfer.setData(
+      'text/plain',
+      `${asset.id}:${ghost.width}:${ghost.height}` // Serialize the asset data as ASSET_ID:WIDTH:HEIGHT
+    )
+  }
 
   return (
     <div className={className + ' flex flex-col'} {...props}>
