@@ -153,7 +153,7 @@ export function Editor({
         <EditorAssetPane className="flex-1" onAssetClick={handleAssetClick} />
 
         {/* Save */}
-        <div className="p-1/2 bg-neutral-750">
+        <div className="p-1/2 bg-gradient-to-br from-neutral-750 to-neutral-800">
           <FlatButton className="w-full" onClick={saveProject}>
             Save Artwork
           </FlatButton>

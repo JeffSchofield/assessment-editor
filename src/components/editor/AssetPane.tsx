@@ -69,13 +69,14 @@ export function EditorAssetPane({
       }
 
       items.push(
-        <EditorArtAssetMenuItem
-          key={asset.id}
-          asset={asset}
-          onClick={() => (onAssetClick ? onAssetClick(asset) : undefined)}
-          draggable="true"
-          onDragStart={e => handleDragStart(e, asset)}
-        />
+        <div key={asset.id} className="p-1/4">
+          <EditorArtAssetMenuItem
+            asset={asset}
+            onClick={() => (onAssetClick ? onAssetClick(asset) : undefined)}
+            draggable="true"
+            onDragStart={e => handleDragStart(e, asset)}
+          />
+        </div>
       )
       return items
     },
@@ -146,7 +147,7 @@ export function EditorAssetPane({
       <div className="flex-1 flex">
         {/* Category filter menu */}
         <div
-          className="flex flex-col bg-neutral-875"
+          className="flex flex-col bg-gradient-to-r from-neutral-875 via-neutral-875 to-neutral-900 divide-y divide-neutral-200/5 divide-dotted"
           data-testid="asset-pane-category-list"
         >
           <PaneMenuItem
@@ -160,7 +161,7 @@ export function EditorAssetPane({
 
         {/* Art Asset list */}
         <div
-          className="flex-1 grid grid-cols-3 p-1/2 gap-1/2 items-start overflow-y-auto"
+          className="flex-1 flex flex-col flex-wrap flex-masonry-3 content-start p-1/4 overflow-y-auto"
           data-testid="asset-pane-main-list"
         >
           {art_asset_menu_items}
