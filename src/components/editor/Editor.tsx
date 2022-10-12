@@ -15,8 +15,9 @@ import { useArtAssets } from '../../contexts/assets'
 import { Stage as StageType } from 'konva/lib/Stage'
 import { KonvaEventObject } from 'konva/lib/Node'
 import { ArtAsset, ArtAssetStageObject, StageObjectType } from '../../types'
-import { addObject, updateObject } from '../../stores/project'
+import { addObject, deleteObject, updateObject } from '../../stores/project'
 import { FlatButton } from '../buttons/FlatButton'
+import { useKey } from 'rooks'
 
 /**
  * Creates an instance of the visual editor.
@@ -132,6 +133,19 @@ export function Editor({
       }
     }
   }
+
+  /**
+   * Keyboard commands
+   */
+
+  // Delete object
+  useKey(['Delete'], () => {
+    // Make sure an object is selected
+    if (selected_asset != undefined) {
+      dispatch(deleteObject(selected_asset))
+      setSelectedAsset(undefined) // Unset the selected object
+    }
+  })
 
   /**
    * Save function
