@@ -1,6 +1,7 @@
 {
   "name": "assessment-editor",
   "version": "0.0.1",
+  "author": "Jeff Schofield <jeff@jeffschofield.com>",
   "scripts": {
     "test:unit": "vitest",
     "coverage": "vitest run --coverage",
