@@ -6,7 +6,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
-These are the main required features for initial release.
+Nothing yet.
+
+## [1.0.0]- 2022-10-11
+
+This release establishes the base application which includes the main features required for initial launch. You can browse, filter, and select assets using the Asset Pane on the right, Drag and drop the assets onto the canvas, transform the assets on the canvas, and save your creation to a PNG. The canvas is persisted automatically through page reloads.
 
 ### Added
 - Add Vite assets plugin which provides a virtual import for all art assets compiled from the `/src/assets/artwork` folder
