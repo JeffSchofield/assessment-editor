@@ -34,19 +34,23 @@ Use the `build` script to build the project:
 yarn build
 ```
 
+The built project will be saved to `/dist`.
+
 ## Usage
 
-Choose an art asset from the pane on the left side. You can click it to add it to the stage or drag and drop it onto the stage. After placing, position the asset how you would like. Use the save button to export your work as a PNG.
+Choose an art asset from the pane on the left side. You can click it to add it to the stage or drag and drop it onto the stage.
+
+After placing, position the assets however you would like. Use the save button to export your work as a PNG.
+
+### Adding More Assets
+
+Assets are stored within the project as a pair of SVG/JSON files within the `/src/assets/artwork` folder. The SVG file is the art asset itself, and the JSON file is a manifest containing metadata about the art asset.
 
 ### Updating Asset Categories
 
 Asset categories are defined in `/src/constants.ts`. You can edit the constant object to update existing categories or add new ones.
 
 The `id` property must be unique. Be careful about changing existing category IDs, as the changes will need to be reflected within an asset manifest JSON.
-
-### Adding Assets
-
-Assets are stored within the project as a pair of SVG/JSON files within the `/src/assets/artwork` folder. The SVG file is the art asset itself, and the JSON file is a manifest containing metadata about the art asset.
 
 ## Testing
 
