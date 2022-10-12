@@ -9,13 +9,14 @@ import { PaneHeading } from '../layout/PaneHeading'
 import { EditorAssetPane } from './AssetPane'
 import { Stage, Layer, Rect } from 'react-konva'
 import { useAppDispatch, useAppSelector } from '../../hooks'
-import { isArtAssetStageObject } from '../../utils'
+import { downloadURI, isArtAssetStageObject } from '../../utils'
 import { EditorArtAssetStageObject } from './objects/ArtAssetStageObject'
 import { useArtAssets } from '../../contexts/assets'
 import { Stage as StageType } from 'konva/lib/Stage'
 import { KonvaEventObject } from 'konva/lib/Node'
 import { ArtAsset, ArtAssetStageObject, StageObjectType } from '../../types'
 import { addObject, updateObject } from '../../stores/project'
+import { FlatButton } from '../buttons/FlatButton'
 
 /**
  * Creates an instance of the visual editor.
@@ -132,6 +133,17 @@ export function Editor({
     }
   }
 
+  /**
+   * Save function
+   */
+  /** Save the project as a PNG. */
+  function saveProject() {
+    if (stage_ref.current) {
+      const data_url = stage_ref.current.toDataURL() // Use the stage ref to get the stage canvas' data URL
+      downloadURI(data_url, 'Project.png') // Download it with file name
+    }
+  }
+
   return (
     <div className={className + ' h-full flex'} {...props}>
       {/* Left Pane */}
@@ -139,6 +151,13 @@ export function Editor({
         {/* Assets Pane */}
         <PaneHeading>Assets</PaneHeading>
         <EditorAssetPane className="flex-1" onAssetClick={handleAssetClick} />
+
+        {/* Save */}
+        <div className="p-1/2 bg-neutral-750">
+          <FlatButton className="w-full" onClick={saveProject}>
+            Save Artwork
+          </FlatButton>
+        </div>
       </div>
 
       {/* Main Viewport */}
