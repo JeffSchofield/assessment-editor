@@ -38,7 +38,7 @@ describe('Editor Asset Pane Component', () => {
 
     const main_list = screen.getByTestId('asset-pane-main-list')
 
-    await userEvent.click(main_list.children[0]) // Click the first asset in the main list
+    await userEvent.click(main_list.children[0].children[0]) // Click the first asset in the main list
 
     expect(asset_click_spy).toHaveBeenCalledTimes(1) // Check the spy to see if the handler was called once
     expect(asset_click_spy).toHaveBeenCalledWith(art_assets[0]) // Check to see if the handler was called with the first asset as a value
@@ -102,7 +102,7 @@ describe('Editor Asset Pane Component', () => {
     )
 
     const main_list = screen.getByTestId('asset-pane-main-list')
-    const drag_element = main_list.children[0]
+    const drag_element = main_list.children[0].children[0]
 
     fireEvent.dragStart(drag_element, {
       dataTransfer: { setDragImage: () => undefined, setData: () => undefined }
