@@ -146,7 +146,7 @@ export function EditorAssetPane({
       <div className="flex-1 flex">
         {/* Category filter menu */}
         <div
-          className="flex flex-col bg-neutral-875"
+          className="flex flex-col bg-gradient-to-r from-neutral-875 via-neutral-875 to-neutral-900"
           data-testid="asset-pane-category-list"
         >
           <PaneMenuItem
