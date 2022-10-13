@@ -1,4 +1,4 @@
-import React, {
+﻿import React, {
   DragEvent as ReactDragEvent,
   MouseEvent as ReactMouseEvent,
   TouchEvent as ReactTouchEvent,
@@ -19,6 +19,8 @@ import { addObject, deleteObject, updateObject } from '../../stores/project'
 import { FlatButton } from '../buttons/FlatButton'
 import { useKey } from 'rooks'
 import { EditorStagePane } from './StagePane'
+import { EditorObjectPane } from './ObjectPane'
+import { EditorContext } from '../../contexts/editor'
 
 /**
  * Creates an instance of the visual editor.
@@ -160,54 +162,58 @@ export function Editor({
   }
 
   return (
-    <div className={className + ' h-full flex'} {...props}>
-      {/* Left Pane */}
-      <div className="flex flex-col w-14 bg-neutral-850">
-        {/* Assets Pane */}
-        <PaneHeading>Assets</PaneHeading>
-        <EditorAssetPane className="flex-1" onAssetClick={handleAssetClick} />
+    <EditorContext.Provider
+      value={{ selected_asset, setSelectedAsset, deselectAsset }}
+    >
+      <div className={className + ' h-full flex'} {...props}>
+        {/* Left Pane */}
+        <div className="flex flex-col w-14 bg-neutral-850">
+          {/* Assets Pane */}
+          <PaneHeading>Assets</PaneHeading>
+          <EditorAssetPane className="flex-1" onAssetClick={handleAssetClick} />
 
-        {/* Save */}
-        <div className="p-1/2 bg-gradient-to-br from-neutral-750 to-neutral-800">
-          <FlatButton className="w-full" onClick={saveProject}>
-            Save Artwork
-          </FlatButton>
+          {/* Save */}
+          <div className="p-1/2 bg-gradient-to-br from-neutral-750 to-neutral-800">
+            <FlatButton className="w-full" onClick={saveProject}>
+              Save Artwork
+            </FlatButton>
+          </div>
+        </div>
+
+        {/* Main Viewport */}
+        <div
+          className="flex-1 flex items-center justify-center"
+          onMouseDown={checkOutsideStageAndDeselect}
+          onTouchStart={checkOutsideStageAndDeselect}
+          onDragOver={e => e.preventDefault()}
+          onDrop={handleDrop}
+        >
+          <Stage
+            ref={stage_ref}
+            className="shadow-md"
+            width={project.width}
+            height={project.height}
+            onMouseDown={checkEmptyAreaAndDeslect}
+            onTouchStart={checkEmptyAreaAndDeslect}
+          >
+            <Layer>
+              <Rect
+                id="stage-background"
+                width={project.width}
+                height={project.height}
+                fill="white"
+              />
+            </Layer>
+            <Layer data-testid="project-content-layer">{stage_content}</Layer>
+          </Stage>
+        </div>
+
+        {/* Right Pane */}
+        <div className="flex flex-col w-14 bg-neutral-875">
+          {/* Stage Pane */}
+          {selected_asset == undefined && <EditorStagePane />}
         </div>
       </div>
-
-      {/* Main Viewport */}
-      <div
-        className="flex-1 flex items-center justify-center"
-        onMouseDown={checkOutsideStageAndDeselect}
-        onTouchStart={checkOutsideStageAndDeselect}
-        onDragOver={e => e.preventDefault()}
-        onDrop={handleDrop}
-      >
-        <Stage
-          ref={stage_ref}
-          className="shadow-md"
-          width={project.width}
-          height={project.height}
-          onMouseDown={checkEmptyAreaAndDeslect}
-          onTouchStart={checkEmptyAreaAndDeslect}
-        >
-          <Layer>
-            <Rect
-              id="stage-background"
-              width={project.width}
-              height={project.height}
-              fill="white"
-            />
-          </Layer>
-          <Layer data-testid="project-content-layer">{stage_content}</Layer>
-        </Stage>
-      </div>
-
-      {/* Right Pane */}
-      <div className="flex flex-col w-14 bg-neutral-875">
-        {/* Stage Pane */}
-        {selected_asset == undefined && <EditorStagePane />}
-      </div>
-    </div>
+    </EditorContext.Provider>
   )
 }
