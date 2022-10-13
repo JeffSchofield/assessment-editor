@@ -38,9 +38,15 @@ The built project will be saved to `/dist`.
 
 ## Usage
 
-Choose an art asset from the pane on the left side. You can click it to add it to the stage or drag and drop it onto the stage.
+You can set the stage dimensions using the Stage pane on the right side. The stage pane appears whenever there is no object selected.
 
-After placing, position the assets however you would like. Use the save button to export your work as a PNG.
+Choose an art asset from the Asset pane on the left side. You can click it to add it to the stage or drag and drop it onto the stage.
+
+After placing, click on objects on the stage to select them and position them however you would like. You can delete selected items using the Object pane on the right side or by pressing the delete key on your keyboard.
+
+Your work is automatically saved and will be restored upon refresh.
+
+Use the save button to export your work as a PNG.
 
 ### Adding More Assets
 
