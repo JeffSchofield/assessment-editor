@@ -1,10 +1,10 @@
-import { useContext } from 'react'
+﻿import { useContext } from 'react'
 import { createContext } from 'react'
 
 interface EditorContext {
-  selected_asset?: string
-  setSelectedAsset(asset: string): void
-  deselectAsset(): void
+  selected_object?: string
+  setSelectedObject(object: string): void
+  deselectObject(): void
 }
 
 export const EditorContext = createContext<EditorContext | undefined>(undefined)
