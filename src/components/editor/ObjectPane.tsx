@@ -7,15 +7,15 @@ import { deleteObject } from '../../stores/project'
 
 export function EditorObjectPane() {
   const dispatch = useAppDispatch()
-  const { selected_asset, deselectAsset } = useEditorContext()
+  const { selected_object, deselectObject } = useEditorContext()
 
   /**
    * Stage Object Delete
    */
 
   function handleObjectDeleteClick() {
-    if (selected_asset) dispatch(deleteObject(selected_asset))
-    deselectAsset()
+    if (selected_object) dispatch(deleteObject(selected_object))
+    deselectObject()
   }
 
   return (

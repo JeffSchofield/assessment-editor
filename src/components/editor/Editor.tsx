@@ -51,60 +51,6 @@ export function Editor({
   }
 
   /**
-   * Asset stage object selection
-   */
-  const [selected_asset, setSelectedAsset] = useState<string | undefined>()
-
-  /** Deselect if any asset is currently selected. */
-  function deselectAsset() {
-    setSelectedAsset(undefined)
-  }
-
-  /** Check to make sure the click is outside the stage and deselect if it is. */
-  function checkOutsideStageAndDeselect(
-    e: ReactMouseEvent<HTMLDivElement> | ReactTouchEvent<HTMLDivElement>
-  ) {
-    if (
-      stage_ref.current?.content &&
-      (e.target as HTMLDivElement).contains(stage_ref.current?.content)
-    )
-      deselectAsset()
-  }
-
-  /** Make sure the clicked area is an empty part of the stage and deselects if it is. */
-  function checkEmptyAreaAndDeslect(
-    e: KonvaEventObject<MouseEvent> | KonvaEventObject<TouchEvent>
-  ) {
-    if (e.target === e.target.getStage() || e.target.id() == 'stage-background')
-      deselectAsset()
-  }
-
-  /**
-   * Build stage content
-   */
-  const stage_content = project.stage.map(stage_object => {
-    if (isArtAssetStageObject(stage_object)) {
-      return (
-        <EditorArtAssetStageObject
-          key={stage_object.id}
-          x={stage_object.x}
-          y={stage_object.y}
-          scale={stage_object.scale}
-          rotation={stage_object.rotation}
-          art_asset={art_assets.find(
-            asset => asset.id == stage_object.asset_id
-          )}
-          isSelected={selected_asset == stage_object.id}
-          onSelect={() => setSelectedAsset(stage_object.id)}
-          onChange={data =>
-            dispatch(updateObject({ id: stage_object.id, data }))
-          }
-        />
-      )
-    }
-  })
-
-  /**
    * Drop handling
    */
   function handleDrop(e: ReactDragEvent) {
@@ -144,9 +90,63 @@ export function Editor({
   // Delete object
   useKey(['Delete'], () => {
     // Make sure an object is selected
-    if (selected_asset != undefined) {
-      dispatch(deleteObject(selected_asset))
-      setSelectedAsset(undefined) // Unset the selected object
+    if (selected_object != undefined) {
+      dispatch(deleteObject(selected_object))
+      setSelectedObject(undefined) // Unset the selected object
+    }
+  })
+
+  /**
+   * Stage object selection
+   */
+  const [selected_object, setSelectedObject] = useState<string | undefined>()
+
+  /** Deselect if any object is currently selected. */
+  function deselectObject() {
+    setSelectedObject(undefined)
+  }
+
+  /** Check to make sure the click is outside the stage and deselect if it is. */
+  function checkOutsideStageAndDeselect(
+    e: ReactMouseEvent<HTMLDivElement> | ReactTouchEvent<HTMLDivElement>
+  ) {
+    if (
+      stage_ref.current?.content &&
+      (e.target as HTMLDivElement).contains(stage_ref.current?.content)
+    )
+      deselectObject()
+  }
+
+  /** Make sure the clicked area is an empty part of the stage and deselects if it is. */
+  function checkEmptyAreaAndDeslect(
+    e: KonvaEventObject<MouseEvent> | KonvaEventObject<TouchEvent>
+  ) {
+    if (e.target === e.target.getStage() || e.target.id() == 'stage-background')
+      deselectObject()
+  }
+
+  /**
+   * Build stage content
+   */
+  const stage_content = project.stage.map(stage_object => {
+    if (isArtAssetStageObject(stage_object)) {
+      return (
+        <EditorArtAssetStageObject
+          key={stage_object.id}
+          x={stage_object.x}
+          y={stage_object.y}
+          scale={stage_object.scale}
+          rotation={stage_object.rotation}
+          art_asset={art_assets.find(
+            asset => asset.id == stage_object.asset_id
+          )}
+          isSelected={selected_object == stage_object.id}
+          onSelect={() => setSelectedObject(stage_object.id)}
+          onChange={data =>
+            dispatch(updateObject({ id: stage_object.id, data }))
+          }
+        />
+      )
     }
   })
 
@@ -163,7 +163,7 @@ export function Editor({
 
   return (
     <EditorContext.Provider
-      value={{ selected_asset, setSelectedAsset, deselectAsset }}
+      value={{ selected_object, setSelectedObject, deselectObject }}
     >
       <div className={className + ' h-full flex'} {...props}>
         {/* Left Pane */}
@@ -211,9 +211,9 @@ export function Editor({
         {/* Right Pane */}
         <div className="flex flex-col w-14 bg-neutral-875">
           {/* Stage Pane */}
-          {selected_asset == undefined && <EditorStagePane />}
+          {selected_object == undefined && <EditorStagePane />}
           {/* Object Pane */}
-          {selected_asset && <EditorObjectPane />}
+          {selected_object && <EditorObjectPane />}
         </div>
       </div>
     </EditorContext.Provider>

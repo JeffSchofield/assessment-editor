@@ -2,9 +2,9 @@
 import { createContext } from 'react'
 
 interface EditorContext {
-  selected_asset?: string
-  setSelectedAsset(asset: string): void
-  deselectAsset(): void
+  selected_object?: string
+  setSelectedObject(object: string): void
+  deselectObject(): void
 }
 
 export const EditorContext = createContext<EditorContext | undefined>(undefined)
@@ -12,6 +12,6 @@ export const EditorContext = createContext<EditorContext | undefined>(undefined)
 export function useEditorContext() {
   const context = useContext(EditorContext)
   if (context == undefined)
-    throw new Error('Unable to use art assets outside of component')
+    throw new Error('Unable to use editor context outside of component')
   return context
 }
