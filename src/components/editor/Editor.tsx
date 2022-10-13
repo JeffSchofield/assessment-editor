@@ -51,6 +51,52 @@ export function Editor({
   }
 
   /**
+   * Drop handling
+   */
+  function handleDrop(e: ReactDragEvent) {
+    if (stage_ref.current) {
+      e.preventDefault()
+
+      stage_ref.current.setPointersPositions(e)
+      const [asset_id, width, height] = e.dataTransfer
+        .getData('text/plain')
+        .split(':') // Deserialize the data transfer object
+
+      // Make sure there is an asset by this ID in the assets list and create the object
+      if (asset_id && art_assets.find(asset => asset.id == asset_id)) {
+        const { x, y } = stage_ref.current.getPointerPosition() || {
+          x: 0,
+          y: 0
+        }
+
+        dispatch(
+          addObject({
+            type: StageObjectType.ART_ASSET,
+            x: x - parseFloat(width) / 2,
+            y: y - parseFloat(height) / 2,
+            scale: { x: 1, y: 1 },
+            rotation: 0,
+            asset_id
+          } as ArtAssetStageObject)
+        )
+      }
+    }
+  }
+
+  /**
+   * Keyboard commands
+   */
+
+  // Delete object
+  useKey(['Delete'], () => {
+    // Make sure an object is selected
+    if (selected_object != undefined) {
+      dispatch(deleteObject(selected_object))
+      setSelectedObject(undefined) // Unset the selected object
+    }
+  })
+
+  /**
    * Stage object selection
    */
   const [selected_object, setSelectedObject] = useState<string | undefined>()
@@ -101,52 +147,6 @@ export function Editor({
           }
         />
       )
-    }
-  })
-
-  /**
-   * Drop handling
-   */
-  function handleDrop(e: ReactDragEvent) {
-    if (stage_ref.current) {
-      e.preventDefault()
-
-      stage_ref.current.setPointersPositions(e)
-      const [asset_id, width, height] = e.dataTransfer
-        .getData('text/plain')
-        .split(':') // Deserialize the data transfer object
-
-      // Make sure there is an asset by this ID in the assets list and create the object
-      if (asset_id && art_assets.find(asset => asset.id == asset_id)) {
-        const { x, y } = stage_ref.current.getPointerPosition() || {
-          x: 0,
-          y: 0
-        }
-
-        dispatch(
-          addObject({
-            type: StageObjectType.ART_ASSET,
-            x: x - parseFloat(width) / 2,
-            y: y - parseFloat(height) / 2,
-            scale: { x: 1, y: 1 },
-            rotation: 0,
-            asset_id
-          } as ArtAssetStageObject)
-        )
-      }
-    }
-  }
-
-  /**
-   * Keyboard commands
-   */
-
-  // Delete object
-  useKey(['Delete'], () => {
-    // Make sure an object is selected
-    if (selected_object != undefined) {
-      dispatch(deleteObject(selected_object))
-      setSelectedObject(undefined) // Unset the selected object
     }
   })
 
