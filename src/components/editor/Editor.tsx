@@ -15,8 +15,12 @@ import { useArtAssets } from '../../contexts/assets'
 import { Stage as StageType } from 'konva/lib/Stage'
 import { KonvaEventObject } from 'konva/lib/Node'
 import { ArtAsset, ArtAssetStageObject, StageObjectType } from '../../types'
-import { addObject, updateObject } from '../../stores/project'
+import { addObject, deleteObject, updateObject } from '../../stores/project'
 import { FlatButton } from '../buttons/FlatButton'
+import { useKey } from 'rooks'
+import { EditorStagePane } from './StagePane'
+import { EditorObjectPane } from './ObjectPane'
+import { EditorContext } from '../../contexts/editor'
 
 /**
  * Creates an instance of the visual editor.
@@ -45,60 +49,6 @@ export function Editor({
       } as Omit<ArtAssetStageObject, 'id'>)
     )
   }
-
-  /**
-   * Asset stage object selection
-   */
-  const [selected_asset, setSelectedAsset] = useState<string | undefined>()
-
-  /** Deselect if any asset is currently selected. */
-  function deselectAsset() {
-    setSelectedAsset(undefined)
-  }
-
-  /** Check to make sure the click is outside the stage and deselect if it is. */
-  function checkOutsideStageAndDeselect(
-    e: ReactMouseEvent<HTMLDivElement> | ReactTouchEvent<HTMLDivElement>
-  ) {
-    if (
-      stage_ref.current?.content &&
-      (e.target as HTMLDivElement).contains(stage_ref.current?.content)
-    )
-      deselectAsset()
-  }
-
-  /** Make sure the clicked area is an empty part of the stage and deselects if it is. */
-  function checkEmptyAreaAndDeslect(
-    e: KonvaEventObject<MouseEvent> | KonvaEventObject<TouchEvent>
-  ) {
-    if (e.target === e.target.getStage() || e.target.id() == 'stage-background')
-      deselectAsset()
-  }
-
-  /**
-   * Build stage content
-   */
-  const stage_content = project.stage.map(stage_object => {
-    if (isArtAssetStageObject(stage_object)) {
-      return (
-        <EditorArtAssetStageObject
-          key={stage_object.id}
-          x={stage_object.x}
-          y={stage_object.y}
-          scale={stage_object.scale}
-          rotation={stage_object.rotation}
-          art_asset={art_assets.find(
-            asset => asset.id == stage_object.asset_id
-          )}
-          isSelected={selected_asset == stage_object.id}
-          onSelect={() => setSelectedAsset(stage_object.id)}
-          onChange={data =>
-            dispatch(updateObject({ id: stage_object.id, data }))
-          }
-        />
-      )
-    }
-  })
 
   /**
    * Drop handling
@@ -134,6 +84,73 @@ export function Editor({
   }
 
   /**
+   * Keyboard commands
+   */
+
+  // Delete object
+  useKey(['Delete'], () => {
+    // Make sure an object is selected
+    if (selected_object != undefined) {
+      dispatch(deleteObject(selected_object))
+      setSelectedObject(undefined) // Unset the selected object
+    }
+  })
+
+  /**
+   * Stage object selection
+   */
+  const [selected_object, setSelectedObject] = useState<string | undefined>()
+
+  /** Deselect if any object is currently selected. */
+  function deselectObject() {
+    setSelectedObject(undefined)
+  }
+
+  /** Check to make sure the click is outside the stage and deselect if it is. */
+  function checkOutsideStageAndDeselect(
+    e: ReactMouseEvent<HTMLDivElement> | ReactTouchEvent<HTMLDivElement>
+  ) {
+    if (
+      stage_ref.current?.content &&
+      (e.target as HTMLDivElement).contains(stage_ref.current?.content)
+    )
+      deselectObject()
+  }
+
+  /** Make sure the clicked area is an empty part of the stage and deselects if it is. */
+  function checkEmptyAreaAndDeslect(
+    e: KonvaEventObject<MouseEvent> | KonvaEventObject<TouchEvent>
+  ) {
+    if (e.target === e.target.getStage() || e.target.id() == 'stage-background')
+      deselectObject()
+  }
+
+  /**
+   * Build stage content
+   */
+  const stage_content = project.stage.map(stage_object => {
+    if (isArtAssetStageObject(stage_object)) {
+      return (
+        <EditorArtAssetStageObject
+          key={stage_object.id}
+          x={stage_object.x}
+          y={stage_object.y}
+          scale={stage_object.scale}
+          rotation={stage_object.rotation}
+          art_asset={art_assets.find(
+            asset => asset.id == stage_object.asset_id
+          )}
+          isSelected={selected_object == stage_object.id}
+          onSelect={() => setSelectedObject(stage_object.id)}
+          onChange={data =>
+            dispatch(updateObject({ id: stage_object.id, data }))
+          }
+        />
+      )
+    }
+  })
+
+  /**
    * Save function
    */
   /** Save the project as a PNG. */
@@ -145,48 +162,60 @@ export function Editor({
   }
 
   return (
-    <div className={className + ' h-full flex'} {...props}>
-      {/* Left Pane */}
-      <div className="flex flex-col w-14 bg-neutral-850">
-        {/* Assets Pane */}
-        <PaneHeading>Assets</PaneHeading>
-        <EditorAssetPane className="flex-1" onAssetClick={handleAssetClick} />
+    <EditorContext.Provider
+      value={{ selected_object, setSelectedObject, deselectObject }}
+    >
+      <div className={className + ' h-full flex'} {...props}>
+        {/* Left Pane */}
+        <div className="flex flex-col w-14 bg-neutral-850">
+          {/* Assets Pane */}
+          <PaneHeading>Assets</PaneHeading>
+          <EditorAssetPane className="flex-1" onAssetClick={handleAssetClick} />
 
-        {/* Save */}
-        <div className="p-1/2 bg-neutral-750">
-          <FlatButton className="w-full" onClick={saveProject}>
-            Save Artwork
-          </FlatButton>
+          {/* Save */}
+          <div className="p-1/2 bg-gradient-to-br from-neutral-750 to-neutral-800">
+            <FlatButton className="w-full" onClick={saveProject}>
+              Save Artwork
+            </FlatButton>
+          </div>
+        </div>
+
+        {/* Main Viewport */}
+        <div
+          className="flex-1 flex items-center justify-center"
+          onMouseDown={checkOutsideStageAndDeselect}
+          onTouchStart={checkOutsideStageAndDeselect}
+          onDragOver={e => e.preventDefault()}
+          onDrop={handleDrop}
+        >
+          <Stage
+            ref={stage_ref}
+            className="shadow-md"
+            width={project.width}
+            height={project.height}
+            onMouseDown={checkEmptyAreaAndDeslect}
+            onTouchStart={checkEmptyAreaAndDeslect}
+          >
+            <Layer>
+              <Rect
+                id="stage-background"
+                width={project.width}
+                height={project.height}
+                fill="white"
+              />
+            </Layer>
+            <Layer data-testid="project-content-layer">{stage_content}</Layer>
+          </Stage>
+        </div>
+
+        {/* Right Pane */}
+        <div className="flex flex-col w-14 bg-neutral-875">
+          {/* Stage Pane */}
+          {selected_object == undefined && <EditorStagePane />}
+          {/* Object Pane */}
+          {selected_object && <EditorObjectPane />}
         </div>
       </div>
-
-      {/* Main Viewport */}
-      <div
-        className="flex-1 flex items-center justify-center"
-        onMouseDown={checkOutsideStageAndDeselect}
-        onTouchStart={checkOutsideStageAndDeselect}
-        onDragOver={e => e.preventDefault()}
-        onDrop={handleDrop}
-      >
-        <Stage
-          ref={stage_ref}
-          className="shadow-md"
-          width={project.width}
-          height={project.height}
-          onMouseDown={checkEmptyAreaAndDeslect}
-          onTouchStart={checkEmptyAreaAndDeslect}
-        >
-          <Layer>
-            <Rect
-              id="stage-background"
-              width={project.width}
-              height={project.height}
-              fill="white"
-            />
-          </Layer>
-          <Layer data-testid="project-content-layer">{stage_content}</Layer>
-        </Stage>
-      </div>
-    </div>
+    </EditorContext.Provider>
   )
 }

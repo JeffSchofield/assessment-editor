@@ -20,7 +20,7 @@ export function TextInput({
     <div
       className={
         className +
-        ' group flex items-center px-1/2 py-1/4 rounded-1/4 text-white border border-neutral-650 bg-neutral-850 initial:w-full focus-within:z-10 focus-within:outline-none focus-within:ring-1/8 focus-within:ring-blue-500 focus-within:!border-blue-400'
+        ' group flex items-center px-1/2 py-1/4 rounded-1/4 text-white border border-neutral-650 bg-neutral-850 initial:w-full focus-within:z-10 focus-within:outline-none focus-within:ring-1/8  focus-within:!border-blue-400'
       }
     >
       {leftIcon != undefined && (

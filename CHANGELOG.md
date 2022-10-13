@@ -8,6 +8,22 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 Nothing yet.
 
+## [1.1.0]- 2022-10-12
+
+### Added
+- Add stage pane on the right that appears when no object is selected, used to update project dimensions
+- Add object pane that replaces the stage pane when an object is selected, used to delete an object
+- Add ability to delete objects through the use of the delete key when an object is selected
+- Add `useEditorContext` function to get parent editor's API, for building panes and other child components
+- Add DesignStripe favicon
+
+### Changed
+- Refactor the aesthetics to utilize gradients and reduce whitespace
+- Use flex-based masonry layout for the assets list instead of grid
+
+### Fixed
+- Use consistent ring color for focus elements
+
 ## [1.0.0]- 2022-10-11
 
 This release establishes the base application which includes the main features required for initial launch. You can browse, filter, and select assets using the Asset Pane on the right, Drag and drop the assets onto the canvas, transform the assets on the canvas, and save your creation to a PNG. The canvas is persisted automatically through page reloads.
