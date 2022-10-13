@@ -6,6 +6,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+Nothing yet.
+
+## [1.1.0]- 2022-10-12
+
 ### Added
 - Add stage pane on the right that appears when no object is selected, used to update project dimensions
 - Add object pane that replaces the stage pane when an object is selected, used to delete an object
