@@ -1,4 +1,4 @@
-﻿import React, {
+import React, {
   DragEvent as ReactDragEvent,
   MouseEvent as ReactMouseEvent,
   TouchEvent as ReactTouchEvent,
@@ -18,6 +18,7 @@ import { ArtAsset, ArtAssetStageObject, StageObjectType } from '../../types'
 import { addObject, deleteObject, updateObject } from '../../stores/project'
 import { FlatButton } from '../buttons/FlatButton'
 import { useKey } from 'rooks'
+import { EditorStagePane } from './StagePane'
 
 /**
  * Creates an instance of the visual editor.
@@ -200,6 +201,12 @@ export function Editor({
           </Layer>
           <Layer data-testid="project-content-layer">{stage_content}</Layer>
         </Stage>
+      </div>
+
+      {/* Right Pane */}
+      <div className="flex flex-col w-14 bg-neutral-875">
+        {/* Stage Pane */}
+        {selected_asset == undefined && <EditorStagePane />}
       </div>
     </div>
   )
