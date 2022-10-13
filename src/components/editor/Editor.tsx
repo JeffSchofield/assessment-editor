@@ -212,6 +212,8 @@ export function Editor({
         <div className="flex flex-col w-14 bg-neutral-875">
           {/* Stage Pane */}
           {selected_asset == undefined && <EditorStagePane />}
+          {/* Object Pane */}
+          {selected_asset && <EditorObjectPane />}
         </div>
       </div>
     </EditorContext.Provider>
